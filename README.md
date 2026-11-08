@@ -1,82 +1,56 @@
 # Microcredit Manager
 
-A backend foundation for managing clients, loans, installments, payments, users, and audit records. This phase sets up the API and data layer; it does not include a frontend or implemented authentication.
+A server-rendered loan and microcredit management application built with Node.js, Express, Handlebars, and MariaDB/MySQL. It uses plain SQL through `mysql2`; the login page is currently a placeholder.
 
-## Stack
+## Run locally with XAMPP on Linux
 
-- Node.js and TypeScript (strict mode)
-- Express
-- PostgreSQL with Prisma ORM
-- Zod for environment validation
-- JWT and bcryptjs dependencies reserved for a future authentication phase
-- Vitest and Supertest
-- Docker Compose for local PostgreSQL
-
-## Run locally
-
-Requirements: Node.js 20.19+ and Docker Compose.
-
-1. From the repository root, copy `.env.example` to `.env`. Set a secure local `ADMIN_PASSWORD` before seeding. The example database credentials are for local development only.
-2. Start PostgreSQL:
+1. Start MySQL:
 
    ```sh
-   docker compose up -d postgres
+   sudo /opt/lampp/lampp startmysql
    ```
 
-3. Install backend dependencies:
+2. Import the schema with phpMyAdmin or the XAMPP MySQL client:
 
    ```sh
-   cd backend
+   /opt/lampp/bin/mysql -u root < database/schema.sql
+   ```
+
+3. Configure the environment and install dependencies:
+
+   ```sh
+   cp -n .env.example .env
    npm install
    ```
 
-4. Create and apply the database migration, then generate the Prisma client:
+   Edit `.env` and set a private `SESSION_SECRET` and `SEED_ADMIN_PASSWORD`. If `DB_*` settings are omitted, the app uses local XAMPP defaults (`localhost:3306`, `root`, empty password, database `microcredit`). A PostgreSQL `DATABASE_URL` is not used.
 
-   ```sh
-   npm run db:migrate
-   npm run db:generate
-   ```
-
-5. Seed the initial administrator:
+4. Create the initial administrator and start the development server:
 
    ```sh
    npm run db:seed
-   ```
-
-   The seed reads `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` from the root `.env`. It updates the named administrator if that email already exists.
-
-6. Start the development server:
-
-   ```sh
    npm run dev
    ```
 
-   The health endpoint is available at `http://localhost:3000/health`.
+The application is available at `http://localhost:3000/`; `http://localhost:3000/health` checks the database connection.
 
-Useful commands from `backend/`:
-
-```sh
-npm test
-npm run build
-npm start
-npm run prisma -- studio
-```
-
-## Folder structure
+## Structure
 
 ```text
-backend/
-  prisma/                 Prisma schema, migrations, and seed
-  src/
-    config/                Environment configuration
-    middlewares/           Express error and 404 handlers
-    modules/               clients, loans, installments, payments, users, audit
-    utils/                 Shared HTTP utilities
-    app.ts                 Express application
-    server.ts              HTTP server entry point
-  tests/                   Backend tests
-docs/
-  database.md               Database models and relationships
-docker-compose.yml          Local PostgreSQL service
-.env.example                Local environment template
+database/schema.sql       Database schema
+scripts/seed-admin.js     Initial administrator seed
+src/
+  config/                 Environment and MySQL pool
+  controllers/            Request handlers
+  middlewares/            Authentication guard, errors, flash messages
+  models/                 Parameterized SQL queries
+  routes/                 Home, authentication, clients, loans, payments
+  utils/                  Shared helpers
+  app.js                  Express and Handlebars setup
+  server.js               HTTP server entry point
+views/
+  layouts/                Shared page layout
+  pages/                  Home, login, error, and not-found pages
+  partials/               Header, footer, and flash messages
+public/                   Application CSS, JavaScript, and images
 ```

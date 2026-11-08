@@ -1,0 +1,27 @@
+<section>
+  <h1 class="h2">{{title}}</h1>
+  {{#if records.length}}
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            {{#each records.[0]}}
+              <th scope="col">{{@key}}</th>
+            {{/each}}
+          </tr>
+        </thead>
+        <tbody>
+          {{#each records}}
+            <tr>
+              {{#each this}}
+                <td>{{this}}</td>
+              {{/each}}
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <p class="text-body-secondary">No records found.</p>
+  {{/if}}
+</section>
