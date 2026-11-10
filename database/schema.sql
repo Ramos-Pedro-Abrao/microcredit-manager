@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(150) NOT NULL,
   email VARCHAR(254) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('ADMIN', 'MANAGER', 'OPERATOR') NOT NULL DEFAULT 'OPERATOR',
+  role ENUM('ADMIN', 'MANAGER', 'OPERATOR', 'CLIENT') NOT NULL DEFAULT 'OPERATOR',
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -23,7 +23,9 @@ CREATE TABLE IF NOT EXISTS users (
 -- Borrower profile and unique identity document.
 CREATE TABLE IF NOT EXISTS clients (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NULL,
   full_name VARCHAR(180) NOT NULL,
+  email VARCHAR(254) NULL,
   document_type VARCHAR(40) NOT NULL,
   document_number VARCHAR(100) NOT NULL,
   phone VARCHAR(40) NULL,
@@ -31,18 +33,60 @@ CREATE TABLE IF NOT EXISTS clients (
   occupation VARCHAR(120) NULL,
   monthly_income DECIMAL(14,2) NULL,
   status ENUM('ACTIVE', 'INACTIVE', 'BLACKLISTED') NOT NULL DEFAULT 'ACTIVE',
+  verification_status ENUM('PENDING', 'VERIFIED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
+  verified_by BIGINT UNSIGNED NULL,
+  verified_at TIMESTAMP NULL,
+  rejection_reason TEXT NULL,
+  registered_via ENUM('SELF', 'STAFF') NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   -- Each identity document belongs to at most one client.
   UNIQUE KEY clients_document_number_unique (document_number),
+  UNIQUE KEY clients_user_id_unique (user_id),
+  UNIQUE KEY clients_email_unique (email),
   KEY clients_status_idx (status),
+  KEY clients_verification_status_idx (verification_status),
+  KEY clients_verified_by_idx (verified_by),
   -- Incomes are optional, but a stored income cannot be negative.
   CONSTRAINT clients_monthly_income_nonnegative CHECK (
     monthly_income IS NULL OR monthly_income >= 0
-  )
+  ),
+  CONSTRAINT clients_user_fk FOREIGN KEY (user_id)
+    REFERENCES users (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT clients_verified_by_fk FOREIGN KEY (verified_by)
+    REFERENCES users (id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Borrowers and contact details';
+
+-- A submitted loan request is reviewed before a loan is created in Phase 4.
+CREATE TABLE IF NOT EXISTS loan_requests (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  client_id BIGINT UNSIGNED NOT NULL,
+  amount DECIMAL(14,2) NOT NULL,
+  term_months INT UNSIGNED NOT NULL,
+  frequency ENUM('WEEKLY', 'BIWEEKLY', 'MONTHLY') NOT NULL,
+  purpose TEXT NOT NULL,
+  status ENUM('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
+  reviewed_by BIGINT UNSIGNED NULL,
+  reviewed_at TIMESTAMP NULL,
+  review_notes TEXT NULL,
+  approved_interest_rate DECIMAL(7,4) NULL,
+  approved_amount DECIMAL(14,2) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY loan_requests_client_id_idx (client_id),
+  KEY loan_requests_reviewed_by_idx (reviewed_by),
+  KEY loan_requests_status_idx (status),
+  CONSTRAINT loan_requests_client_fk FOREIGN KEY (client_id)
+    REFERENCES clients (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT loan_requests_reviewed_by_fk FOREIGN KEY (reviewed_by)
+    REFERENCES users (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT loan_requests_amount_positive CHECK (amount > 0),
+  CONSTRAINT loan_requests_term_months_positive CHECK (term_months > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  COMMENT='Client loan applications awaiting staff review';
 
 -- Loan agreements; client and approving user references are indexed below.
 CREATE TABLE IF NOT EXISTS loans (

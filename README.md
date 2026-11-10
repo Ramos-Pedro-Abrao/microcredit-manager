@@ -6,9 +6,11 @@ A server-rendered loan and microcredit management application built with Node.js
 
 - Session-based sign-in with bcrypt password verification, CSRF protection, and role-based access.
 - Admin user management, including account deactivation and password resets.
-- Client creation, editing, search, status filtering, and paginated listing.
-- Append-only audit records for sign-in and user/client changes.
-- Loan and payment schema and protected placeholder pages; loan workflows are planned for Phase 3.
+- Public client registration with pending staff verification.
+- Client self-service profile management and loan request submission/cancellation.
+- Staff client management, verification, searchable/filterable paginated lists, and review of loan requests.
+- Append-only audit records for sign-in, user management, client verification, and loan request decisions.
+- Request approval records only; loan, installment, and contract creation are planned for Phase 4.
 
 ## Run locally with XAMPP on Linux
 
@@ -18,10 +20,16 @@ A server-rendered loan and microcredit management application built with Node.js
    sudo /opt/lampp/lampp startmysql
    ```
 
-2. Import the schema with phpMyAdmin or the XAMPP MySQL client:
+2. For a fresh install, import the schema with phpMyAdmin or the XAMPP MySQL client:
 
    ```sh
    /opt/lampp/bin/mysql -u root < database/schema.sql
+   ```
+
+   For an existing Phase 2 database, apply the additive migration once (it preserves existing client records and marks them as STAFF-registered and VERIFIED):
+
+   ```sh
+   /opt/lampp/bin/mysql -u root microcredit < database/migrations/002_client_portal.sql
    ```
 
 3. Configure the environment and install dependencies:
@@ -33,24 +41,27 @@ A server-rendered loan and microcredit management application built with Node.js
 
    Edit `.env` and set a private `SESSION_SECRET` and `SEED_ADMIN_PASSWORD`. If `DB_*` settings are omitted, the app uses local XAMPP defaults (`localhost:3306`, `root`, empty password, database `microcredit`). A PostgreSQL `DATABASE_URL` is not used.
 
-4. Create the initial administrator and optionally add development-only sample clients:
+4. Create the initial administrator and start the development server:
 
    ```sh
    npm run db:seed
-   npm run db:seed:demo
    npm run dev
    ```
 
-`db:seed:demo` inserts 25 fake clients, skips existing document numbers, and refuses to run when `NODE_ENV=production`. The application is available at `http://localhost:3000/`; `http://localhost:3000/health` checks the database connection.
+Clients register at `/register`, then wait for staff verification. Verified clients can submit one pending loan request at a time; ADMIN and MANAGER users can review requests. Approval does not yet create a loan. Staff can also create walk-in client records. The application is available at `http://localhost:3000/`; `http://localhost:3000/health` checks the database connection.
 
 ## Roles and permissions
 
-| Action | ADMIN | MANAGER | OPERATOR |
+| Action | ADMIN | MANAGER | OPERATOR | CLIENT |
 | --- | --- | --- | --- |
-| View, create, and edit clients | Yes | Yes | Yes |
-| Change client status | Yes | Yes | No |
-| View/manage users, reset passwords, and deactivate accounts | Yes | No | No |
-| Access the dashboard and protected application pages | Yes | Yes | Yes |
+| View, create, and edit staff client records | Yes | Yes | Yes | No |
+| Verify or reject client registrations | Yes | Yes | No | No |
+| Change client status | Yes | Yes | No | No |
+| Manage users, reset passwords, and deactivate accounts | Yes | No | No | No |
+| View and edit own contact profile | No | No | No | Yes |
+| Submit/cancel own loan requests | No | No | No | Yes |
+| Review loan requests | Yes | Yes | No | No |
+| Access staff dashboard and queues | Yes | Yes | Yes | No |
 
 Users are deactivated rather than deleted. An admin cannot deactivate or demote their own account.
 
@@ -61,7 +72,6 @@ Users are deactivated rather than deleted. An admin cannot deactivate or demote 
 | `npm run dev` | Start the development server with nodemon |
 | `npm start` | Start the server |
 | `npm run db:seed` | Create the initial admin account if it does not exist |
-| `npm run db:seed:demo` | Add repeatable fake client data outside production |
 
 ## Structure
 

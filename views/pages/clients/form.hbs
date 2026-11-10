@@ -15,6 +15,10 @@
     </div>
     <div class="row g-3">
       <div class="col-md-6 mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" id="email" name="email" type="email" maxlength="254" value="{{values.email}}">
+      </div>
+      <div class="col-md-6 mb-3">
         <label class="form-label" for="document_type">Document type <span class="text-danger">*</span></label>
         <input class="form-control" id="document_type" name="document_type" maxlength="40" value="{{values.document_type}}" required>
       </div>

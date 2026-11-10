@@ -1,0 +1,44 @@
+<section>
+  <h1 class="h2 mb-3">Loan requests</h1>
+  <form class="row g-2 mb-3" action="/requests" method="get">
+    <div class="col-md-4">
+      <label class="form-label" for="status">Status</label>
+      <select class="form-select" id="status" name="status">
+        <option value="">All statuses</option>
+        <option value="PENDING" {{selected status "PENDING"}}>Pending</option>
+        <option value="APPROVED" {{selected status "APPROVED"}}>Approved</option>
+        <option value="REJECTED" {{selected status "REJECTED"}}>Rejected</option>
+        <option value="CANCELLED" {{selected status "CANCELLED"}}>Cancelled</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <button class="btn btn-outline-primary" type="submit">Filter</button>
+    </div>
+  </form>
+  <p class="text-body-secondary">{{total}} request(s) found.</p>
+  {{#if requests.length}}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr><th>Request</th><th>Client</th><th>Amount</th><th>Term</th><th>Client verification</th><th>Status</th><th>Submitted</th></tr>
+        </thead>
+        <tbody>
+          {{#each requests}}
+            <tr>
+              <td><a href="/requests/{{this.id}}">#{{this.id}}</a></td>
+              <td>{{this.full_name}}</td>
+              <td>{{formatKz this.amount}}</td>
+              <td>{{this.term_months}} months</td>
+              <td>{{this.verification_status}}</td>
+              <td>{{this.status}}</td>
+              <td>{{formatDate this.created_at}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <p class="text-body-secondary">No loan requests found.</p>
+  {{/if}}
+  {{> pagination}}
+</section>

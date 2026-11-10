@@ -1,0 +1,9 @@
+<section class="py-4">
+  <h1 class="h2">{{title}}</h1>
+  {{#if message}}
+    <p>{{message}}</p>
+  {{else}}
+    <p>Your registration is currently <strong>{{client.verification_status}}</strong>. Loan requests are available after staff verifies your information.</p>
+  {{/if}}
+  <a class="btn btn-primary" href="/portal">Return to portal</a>
+</section>

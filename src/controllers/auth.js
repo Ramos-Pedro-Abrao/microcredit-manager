@@ -18,7 +18,9 @@ function safeReturnTo(value) {
 }
 
 export function showLogin(req, res) {
-  if (req.session.user) return res.redirect("/dashboard");
+  if (req.session.user) {
+    return res.redirect(req.session.user.role === "CLIENT" ? "/portal" : "/dashboard");
+  }
   res.render("pages/login", {
     title: "Sign in | Microcredit Manager",
     returnTo: safeReturnTo(req.query.returnTo),
@@ -65,7 +67,7 @@ export async function login(req, res) {
     entity: "USER",
     entityId: user.id,
   });
-  return res.redirect(safeReturnTo(req.body.returnTo));
+  return res.redirect(user.role === "CLIENT" ? "/portal" : safeReturnTo(req.body.returnTo));
 }
 
 export async function logout(req, res) {

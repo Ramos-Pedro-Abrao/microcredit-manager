@@ -13,5 +13,5 @@ export function minLength(value, length) {
 
 export function numberAtLeastZero(value) {
   if (typeof value !== "string" || value.trim() === "") return false;
-  return /^\d+(?:\.\d{1,2})?$/.test(value.trim());
+  return /^\d{1,12}(?:\.\d{1,2})?$/.test(value.trim());
 }

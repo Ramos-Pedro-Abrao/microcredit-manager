@@ -3,8 +3,10 @@
   <p class="text-body-secondary">Signed in as {{currentUser.role}}.</p>
   <div class="d-flex flex-wrap gap-2 mt-4">
     <a class="btn btn-primary" href="/clients">Clients</a>
+    <a class="btn btn-outline-primary" href="/requests">Loan requests ({{pendingRequests}} pending)</a>
     {{#if (eq currentUser.role "ADMIN")}}
       <a class="btn btn-outline-primary" href="/users">Manage users</a>
     {{/if}}
   </div>
+  <p class="mt-4 mb-0"><strong>Pending verification:</strong> {{pendingVerifications}}</p>
 </section>

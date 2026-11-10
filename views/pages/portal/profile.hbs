@@ -1,0 +1,35 @@
+<section class="form-page">
+  <h1 class="h2 mb-3">My profile</h1>
+  <p class="text-body-secondary">Your name and identity document cannot be changed here.</p>
+  {{#if errors.length}}
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0">{{#each errors}}<li>{{this}}</li>{{/each}}</ul>
+    </div>
+  {{/if}}
+  <dl class="row">
+    <dt class="col-sm-3">Full name</dt><dd class="col-sm-9">{{client.full_name}}</dd>
+    <dt class="col-sm-3">Email</dt><dd class="col-sm-9">{{client.email}}</dd>
+    <dt class="col-sm-3">Document</dt><dd class="col-sm-9">{{client.document_type}}: {{client.document_number}}</dd>
+  </dl>
+  <form action="/portal/profile" method="post">
+    {{> csrf-field}}
+    <div class="mb-3">
+      <label class="form-label" for="phone">Phone</label>
+      <input class="form-control" id="phone" name="phone" maxlength="40" value="{{client.phone}}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="address">Address</label>
+      <input class="form-control" id="address" name="address" maxlength="255" value="{{client.address}}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="occupation">Occupation</label>
+      <input class="form-control" id="occupation" name="occupation" maxlength="120" value="{{client.occupation}}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="monthly_income">Monthly income (Kz)</label>
+      <input class="form-control" id="monthly_income" name="monthly_income" type="number" min="0" step="0.01" value="{{client.monthly_income}}">
+    </div>
+    <button class="btn btn-primary" type="submit">Save profile</button>
+    <a class="btn btn-outline-secondary" href="/portal">Back to portal</a>
+  </form>
+</section>

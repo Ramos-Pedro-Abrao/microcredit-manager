@@ -1,0 +1,34 @@
+<section class="form-page">
+  <h1 class="h2 mb-4">New loan request</h1>
+  {{#if errors.length}}
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0">{{#each errors}}<li>{{this}}</li>{{/each}}</ul>
+    </div>
+  {{/if}}
+  <form action="/portal/requests" method="post">
+    {{> csrf-field}}
+    <div class="mb-3">
+      <label class="form-label" for="amount">Amount (Kz) <span class="text-danger">*</span></label>
+      <input class="form-control" id="amount" name="amount" type="number" min="0.01" step="0.01" value="{{values.amount}}" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="term_months">Term (months) <span class="text-danger">*</span></label>
+      <input class="form-control" id="term_months" name="term_months" type="number" min="1" max="60" step="1" value="{{values.term_months}}" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="frequency">Repayment frequency <span class="text-danger">*</span></label>
+      <select class="form-select" id="frequency" name="frequency" required>
+        <option value="">Select frequency</option>
+        <option value="WEEKLY" {{selected values.frequency "WEEKLY"}}>Weekly</option>
+        <option value="BIWEEKLY" {{selected values.frequency "BIWEEKLY"}}>Biweekly</option>
+        <option value="MONTHLY" {{selected values.frequency "MONTHLY"}}>Monthly</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="purpose">Purpose <span class="text-danger">*</span></label>
+      <textarea class="form-control" id="purpose" name="purpose" rows="4" required>{{values.purpose}}</textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit request</button>
+    <a class="btn btn-outline-secondary" href="/portal">Cancel</a>
+  </form>
+</section>

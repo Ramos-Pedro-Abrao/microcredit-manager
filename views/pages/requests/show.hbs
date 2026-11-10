@@ -1,0 +1,78 @@
+<section>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h1 class="h2 mb-0">Loan request #{{request.id}}</h1>
+    <a class="btn btn-outline-secondary" href="/requests">Back to requests</a>
+  </div>
+  {{#if errors.length}}
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0">{{#each errors}}<li>{{this}}</li>{{/each}}</ul>
+    </div>
+  {{/if}}
+  <dl class="row">
+    <dt class="col-sm-3">Client</dt><dd class="col-sm-9"><a href="/clients/{{request.client_id}}">{{request.full_name}}</a></dd>
+    <dt class="col-sm-3">Document</dt><dd class="col-sm-9">{{request.document_number}}</dd>
+    <dt class="col-sm-3">Client verification</dt><dd class="col-sm-9">{{request.verification_status}}</dd>
+    <dt class="col-sm-3">Requested amount</dt><dd class="col-sm-9">{{formatKz request.amount}}</dd>
+    <dt class="col-sm-3">Term</dt><dd class="col-sm-9">{{request.term_months}} months</dd>
+    <dt class="col-sm-3">Frequency</dt><dd class="col-sm-9">{{request.frequency}}</dd>
+    <dt class="col-sm-3">Purpose</dt><dd class="col-sm-9">{{request.purpose}}</dd>
+    <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{request.status}}</dd>
+    {{#if request.approved_amount}}
+      <dt class="col-sm-3">Approved amount</dt><dd class="col-sm-9">{{formatKz request.approved_amount}}</dd>
+      <dt class="col-sm-3">Approved interest rate</dt><dd class="col-sm-9">{{request.approved_interest_rate}}%</dd>
+    {{/if}}
+    {{#if request.review_notes}}
+      <dt class="col-sm-3">Review notes</dt><dd class="col-sm-9">{{request.review_notes}}</dd>
+    {{/if}}
+    <dt class="col-sm-3">Submitted</dt><dd class="col-sm-9">{{formatDate request.created_at}}</dd>
+  </dl>
+
+  {{#if (eq request.status "PENDING")}}
+    {{#if (eq request.verification_status "VERIFIED")}}
+      <section class="row g-4 mt-2">
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h5">Approve request</h2>
+              <form action="/requests/{{request.id}}/review" method="post">
+                {{> csrf-field}}
+                <input type="hidden" name="decision" value="APPROVED">
+                <div class="mb-3">
+                  <label class="form-label" for="approved_amount">Approved amount (Kz)</label>
+                  <input class="form-control" id="approved_amount" name="approved_amount" type="number" min="0.01" step="0.01" value="{{#if values.approved_amount}}{{values.approved_amount}}{{else}}{{request.amount}}{{/if}}" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="approved_interest_rate">Interest rate (%)</label>
+                  <input class="form-control" id="approved_interest_rate" name="approved_interest_rate" type="number" min="0" step="0.0001" value="{{values.approved_interest_rate}}" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="approval_notes">Review notes</label>
+                  <textarea class="form-control" id="approval_notes" name="review_notes" rows="3">{{values.review_notes}}</textarea>
+                </div>
+                <button class="btn btn-success" type="submit">Approve</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h5">Reject request</h2>
+              <form action="/requests/{{request.id}}/review" method="post">
+                {{> csrf-field}}
+                <input type="hidden" name="decision" value="REJECTED">
+                <div class="mb-3">
+                  <label class="form-label" for="rejection_notes">Reason <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="rejection_notes" name="review_notes" rows="3" required>{{values.review_notes}}</textarea>
+                </div>
+                <button class="btn btn-outline-danger" type="submit">Reject</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{else}}
+      <div class="alert alert-warning">The client must be verified before this request can be reviewed.</div>
+    {{/if}}
+  {{/if}}
+</section>

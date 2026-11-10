@@ -1,0 +1,64 @@
+<section>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div>
+      <h1 class="h2">Client portal</h1>
+      <p class="text-body-secondary">Welcome, {{client.full_name}}.</p>
+    </div>
+    <a class="btn btn-outline-primary" href="/portal/profile">Edit contact profile</a>
+  </div>
+
+  <div class="card my-4">
+    <div class="card-body">
+      <h2 class="h5">Verification status</h2>
+      <p>
+        <span class="badge {{#if (eq client.verification_status "VERIFIED")}}text-bg-success{{else if (eq client.verification_status "REJECTED")}}text-bg-danger{{else}}text-bg-warning{{/if}}">
+          {{client.verification_status}}
+        </span>
+      </p>
+      {{#if (eq client.verification_status "PENDING")}}
+        <p class="mb-0">Your registration is being reviewed. You can submit a loan request after verification.</p>
+      {{/if}}
+      {{#if (eq client.verification_status "REJECTED")}}
+        <p class="mb-0"><strong>Reason:</strong> {{client.rejection_reason}}</p>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+    <h2 class="h4 mb-0">My loan requests</h2>
+    {{#if (eq client.verification_status "VERIFIED")}}
+      <a class="btn btn-primary" href="/portal/requests/new">New request</a>
+    {{/if}}
+  </div>
+  {{#if requests.length}}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr><th>Request</th><th>Amount</th><th>Term</th><th>Frequency</th><th>Status</th><th>Submitted</th><th></th></tr>
+        </thead>
+        <tbody>
+          {{#each requests}}
+            <tr>
+              <td>#{{this.id}}</td>
+              <td>{{formatKz this.amount}}</td>
+              <td>{{this.term_months}} months</td>
+              <td>{{this.frequency}}</td>
+              <td>{{this.status}}</td>
+              <td>{{formatDate this.created_at}}</td>
+              <td>
+                {{#if (eq this.status "PENDING")}}
+                  <form action="/portal/requests/{{this.id}}/cancel" method="post">
+                    {{> csrf-field}}
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Cancel</button>
+                  </form>
+                {{/if}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <p class="text-body-secondary">You have not submitted any loan requests.</p>
+  {{/if}}
+</section>

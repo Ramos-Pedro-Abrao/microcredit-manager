@@ -10,6 +10,15 @@
       <input class="form-control" id="search" name="search" value="{{search}}" placeholder="Name, document number, or phone">
     </div>
     <div class="col-md-3">
+      <label class="form-label" for="verification_status">Verification</label>
+      <select class="form-select" id="verification_status" name="verification_status">
+        <option value="">All verification states</option>
+        <option value="PENDING" {{selected verificationStatus "PENDING"}}>Pending</option>
+        <option value="VERIFIED" {{selected verificationStatus "VERIFIED"}}>Verified</option>
+        <option value="REJECTED" {{selected verificationStatus "REJECTED"}}>Rejected</option>
+      </select>
+    </div>
+    <div class="col-md-3">
       <label class="form-label" for="status">Status</label>
       <select class="form-select" id="status" name="status">
         <option value="">All statuses</option>
@@ -34,6 +43,7 @@
             <th scope="col">Document</th>
             <th scope="col">Phone</th>
             <th scope="col">Status</th>
+            <th scope="col">Verification</th>
             <th scope="col"><span class="visually-hidden">Actions</span></th>
           </tr>
         </thead>
@@ -44,6 +54,7 @@
               <td>{{this.document_type}}: {{this.document_number}}</td>
               <td>{{this.phone}}</td>
               <td>{{this.status}}</td>
+              <td><span class="badge {{#if (eq this.verification_status "VERIFIED")}}text-bg-success{{else if (eq this.verification_status "REJECTED")}}text-bg-danger{{else}}text-bg-warning{{/if}}">{{this.verification_status}}</span></td>
               <td><a class="btn btn-sm btn-outline-primary" href="/clients/{{this.id}}">View</a></td>
             </tr>
           {{/each}}

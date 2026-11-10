@@ -7,10 +7,20 @@
     <div class="collapse navbar-collapse" id="main-navigation">
       <div class="navbar-nav ms-auto">
         {{#if currentUser}}
-          <a class="nav-link" href="/dashboard">Dashboard</a>
-          <a class="nav-link" href="/clients">Clients</a>
-          {{#if (eq currentUser.role "ADMIN")}}
-            <a class="nav-link" href="/users">Users</a>
+          {{#if (eq currentUser.role "CLIENT")}}
+            <a class="nav-link" href="/portal">Portal</a>
+            <a class="nav-link" href="/portal/profile">Profile</a>
+          {{else}}
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+            <a class="nav-link" href="/clients">Clients</a>
+            {{#if (eq currentUser.role "ADMIN")}}
+              <a class="nav-link" href="/requests">Requests</a>
+            {{else if (eq currentUser.role "MANAGER")}}
+              <a class="nav-link" href="/requests">Requests</a>
+            {{/if}}
+            {{#if (eq currentUser.role "ADMIN")}}
+              <a class="nav-link" href="/users">Users</a>
+            {{/if}}
           {{/if}}
           <span class="navbar-text px-lg-3">{{currentUser.name}}</span>
           <form action="/logout" method="post" class="d-flex align-items-center">
@@ -19,6 +29,7 @@
           </form>
         {{else}}
           <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/register">Register</a>
         {{/if}}
       </div>
     </div>

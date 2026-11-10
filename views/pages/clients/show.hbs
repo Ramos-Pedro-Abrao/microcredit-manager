@@ -14,9 +14,43 @@
     <dt class="col-sm-3">Monthly income</dt>
     <dd class="col-sm-9">{{#if client.monthly_income}}{{formatKz client.monthly_income}}{{else}}—{{/if}}</dd>
     <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{client.status}}</dd>
+    <dt class="col-sm-3">Email</dt><dd class="col-sm-9">{{client.email}}</dd>
+    <dt class="col-sm-3">Registration</dt><dd class="col-sm-9">{{client.registered_via}}</dd>
+    <dt class="col-sm-3">Verification</dt><dd class="col-sm-9">{{client.verification_status}}</dd>
+    {{#if client.verified_at}}
+      <dt class="col-sm-3">Reviewed by</dt><dd class="col-sm-9">{{client.verified_by_name}}</dd>
+      <dt class="col-sm-3">Reviewed at</dt><dd class="col-sm-9">{{formatDate client.verified_at}}</dd>
+    {{/if}}
+    {{#if client.rejection_reason}}
+      <dt class="col-sm-3">Rejection reason</dt><dd class="col-sm-9">{{client.rejection_reason}}</dd>
+    {{/if}}
     <dt class="col-sm-3">Created</dt><dd class="col-sm-9">{{formatDate client.created_at}}</dd>
     <dt class="col-sm-3">Updated</dt><dd class="col-sm-9">{{formatDate client.updated_at}}</dd>
   </dl>
+  {{#if rejectionError}}
+    <div class="alert alert-danger" role="alert">{{rejectionError}}</div>
+  {{/if}}
+  {{#if canVerify}}
+    {{#if (eq client.verification_status "PENDING")}}
+      <section class="card mb-4">
+        <div class="card-body">
+          <h2 class="h5">Review client verification</h2>
+          <div class="d-flex flex-wrap gap-3 align-items-start">
+            <form action="/clients/{{client.id}}/verify" method="post">
+              {{> csrf-field}}
+              <button class="btn btn-success" type="submit">Verify client</button>
+            </form>
+            <form action="/clients/{{client.id}}/reject" method="post" class="flex-grow-1">
+              {{> csrf-field}}
+              <label class="form-label" for="rejection_reason">Rejection reason <span class="text-danger">*</span></label>
+              <textarea class="form-control mb-2" id="rejection_reason" name="rejection_reason" rows="2" required>{{rejectionReason}}</textarea>
+              <button class="btn btn-outline-danger" type="submit">Reject registration</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    {{/if}}
+  {{/if}}
   <section class="mt-5">
     <h2 class="h4">Loans</h2>
     <p class="text-body-secondary">Loan management will be available in Phase 3.</p>

@@ -31,6 +31,14 @@ export async function createUser({ name, email, passwordHash, role }) {
   return result.insertId;
 }
 
+export async function registerClientAccount(connection, { name, email, passwordHash }) {
+  const [userResult] = await connection.execute(
+    "INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, 'CLIENT')",
+    [name, email, passwordHash],
+  );
+  return userResult.insertId;
+}
+
 export async function updateUser({ id, name, role, isActive }) {
   await pool.execute(
     "UPDATE users SET name = ?, role = ?, is_active = ? WHERE id = ?",
