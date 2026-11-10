@@ -1,0 +1,57 @@
+<section>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h2 mb-0">Clients</h1>
+    <a class="btn btn-primary" href="/clients/new">Create client</a>
+  </div>
+
+  <form class="row g-2 mb-3" action="/clients" method="get">
+    <div class="col-md-6">
+      <label class="form-label" for="search">Search clients</label>
+      <input class="form-control" id="search" name="search" value="{{search}}" placeholder="Name, document number, or phone">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label" for="status">Status</label>
+      <select class="form-select" id="status" name="status">
+        <option value="">All statuses</option>
+        <option value="ACTIVE" {{selected status "ACTIVE"}}>Active</option>
+        <option value="INACTIVE" {{selected status "INACTIVE"}}>Inactive</option>
+        <option value="BLACKLISTED" {{selected status "BLACKLISTED"}}>Blacklisted</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex align-items-end gap-2">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+      <a class="btn btn-outline-secondary" href="/clients">Clear</a>
+    </div>
+  </form>
+
+  <p class="text-body-secondary">{{total}} client(s) found.</p>
+  {{#if clients.length}}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Document</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each clients}}
+            <tr>
+              <td>{{this.full_name}}</td>
+              <td>{{this.document_type}}: {{this.document_number}}</td>
+              <td>{{this.phone}}</td>
+              <td>{{this.status}}</td>
+              <td><a class="btn btn-sm btn-outline-primary" href="/clients/{{this.id}}">View</a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <p class="text-body-secondary">No clients found.</p>
+  {{/if}}
+  {{> pagination}}
+</section>

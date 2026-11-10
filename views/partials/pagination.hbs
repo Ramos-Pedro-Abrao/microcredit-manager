@@ -1,0 +1,11 @@
+{{#if pages.length}}
+  <nav aria-label="Client list pages">
+    <ul class="pagination">
+      {{#each pages}}
+        <li class="page-item {{#if this.active}}active{{/if}}">
+          <a class="page-link" href="{{this.href}}" {{#if this.active}}aria-current="page"{{/if}}>{{this.number}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+{{/if}}

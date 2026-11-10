@@ -1,0 +1,41 @@
+<section>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h2 mb-0">Users</h1>
+    <a class="btn btn-primary" href="/users/new">Create user</a>
+  </div>
+  {{#if users.length}}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.email}}</td>
+              <td>{{this.role}}</td>
+              <td>{{#if this.is_active}}Active{{else}}Inactive{{/if}}</td>
+              <td>{{formatDate this.created_at}}</td>
+              <td>
+                <div class="d-flex flex-wrap gap-2">
+                  <a class="btn btn-sm btn-outline-primary" href="/users/{{this.id}}/edit">Edit</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="/users/{{this.id}}/password">Reset password</a>
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <p class="text-body-secondary">No users found.</p>
+  {{/if}}
+</section>

@@ -1,14 +1,15 @@
 import { pool } from "../config/db.js";
 
-export function home(_req, res) {
+export function home(req, res) {
+  if (req.session.user) return res.redirect("/dashboard");
   res.render("pages/home", {
     title: "Microcredit Manager",
   });
 }
 
-export function login(_req, res) {
-  res.render("pages/login", {
-    title: "Sign in | Microcredit Manager",
+export function dashboard(req, res) {
+  res.render("pages/dashboard", {
+    title: "Dashboard | Microcredit Manager",
   });
 }
 

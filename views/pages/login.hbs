@@ -1,7 +1,19 @@
 <section class="login-placeholder mx-auto">
-  <h1 class="h2">Sign in</h1>
-  <p class="text-body-secondary">
-    Authentication is not available yet. This page is a placeholder for the sign-in flow.
-  </p>
-  <a class="btn btn-outline-primary" href="/">Return home</a>
+  <h1 class="h2 mb-4">Sign in</h1>
+  {{#if error}}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+  {{/if}}
+  <form action="/login" method="post">
+    {{> csrf-field}}
+    <input type="hidden" name="returnTo" value="{{returnTo}}">
+    <div class="mb-3">
+      <label class="form-label" for="email">Email</label>
+      <input class="form-control" id="email" name="email" type="email" value="{{values.email}}" autocomplete="username" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="password">Password</label>
+      <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
 </section>

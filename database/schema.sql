@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS payments (
 -- Audit trail of user actions and affected entities.
 CREATE TABLE IF NOT EXISTS audit_logs (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id BIGINT UNSIGNED NOT NULL,
+  user_id BIGINT UNSIGNED NULL,
   action VARCHAR(100) NOT NULL,
   entity VARCHAR(100) NOT NULL,
   entity_id VARCHAR(100) NOT NULL,
@@ -146,11 +146,14 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   PRIMARY KEY (id),
   KEY audit_logs_user_id_idx (user_id),
   KEY audit_logs_entity_lookup_idx (entity, entity_id),
-  -- Keep the actor account while its audit records exist.
+  -- Keep the actor account while its audit records exist; failed logins have no actor.
   CONSTRAINT audit_logs_user_fk FOREIGN KEY (user_id)
     REFERENCES users (id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Append-only record of important application actions';
+
+-- Also updates databases created from the Phase 1 schema.
+ALTER TABLE audit_logs MODIFY COLUMN user_id BIGINT UNSIGNED NULL;
 
 -- Reset these triggers when re-importing the schema; payment/audit rows are never deleted.
 DROP TRIGGER IF EXISTS payments_prevent_delete;
