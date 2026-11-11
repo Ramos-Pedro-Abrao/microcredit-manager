@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-AO">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0B1F3A">
+    <title>{{appName}} | Crédito simples e transparente</title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-400.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-500.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-600.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-700.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-800.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-ext-400.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-ext-500.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-ext-600.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-ext-700.css">
+    <link rel="stylesheet" href="/vendor/fonts/latin-ext-800.css">
+    <link rel="stylesheet" href="/css/theme.css">
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/app.js" defer></script>
+  </head>
+  <body class="public-body">
+    {{> public-navbar}}
+    <main>
+      {{> flash}}
+      {{{body}}}
+    </main>
+    {{> public-footer}}
+  </body>
+</html>

@@ -1,49 +1,50 @@
 <section>
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <h1 class="h2 mb-0">Clients</h1>
-    <a class="btn btn-primary" href="/clients/new">Create client</a>
+  <div class="page-heading">
+    <div><span class="section-kicker">Gestão</span><h1>Clientes</h1></div>
+    <a class="btn btn-primary" href="/clients/new"><i class="bi bi-person-plus me-1" aria-hidden="true"></i>Novo cliente</a>
   </div>
 
-  <form class="row g-2 mb-3" action="/clients" method="get">
+  <form class="row g-3 align-items-end filter-card" action="/clients" method="get">
     <div class="col-md-6">
-      <label class="form-label" for="search">Search clients</label>
-      <input class="form-control" id="search" name="search" value="{{search}}" placeholder="Name, document number, or phone">
+      <label class="form-label" for="search">Pesquisar clientes</label>
+      <input class="form-control" id="search" name="search" value="{{search}}" placeholder="Nome, documento ou telefone">
     </div>
     <div class="col-md-3">
-      <label class="form-label" for="verification_status">Verification</label>
+      <label class="form-label" for="verification_status">Verificação</label>
       <select class="form-select" id="verification_status" name="verification_status">
-        <option value="">All verification states</option>
-        <option value="PENDING" {{selected verificationStatus "PENDING"}}>Pending</option>
-        <option value="VERIFIED" {{selected verificationStatus "VERIFIED"}}>Verified</option>
-        <option value="REJECTED" {{selected verificationStatus "REJECTED"}}>Rejected</option>
+        <option value="">Todos os estados</option>
+        <option value="PENDING" {{selected verificationStatus "PENDING"}}>Pendente</option>
+        <option value="VERIFIED" {{selected verificationStatus "VERIFIED"}}>Verificado</option>
+        <option value="REJECTED" {{selected verificationStatus "REJECTED"}}>Rejeitado</option>
       </select>
     </div>
     <div class="col-md-3">
-      <label class="form-label" for="status">Status</label>
+      <label class="form-label" for="status">Estado da conta</label>
       <select class="form-select" id="status" name="status">
-        <option value="">All statuses</option>
-        <option value="ACTIVE" {{selected status "ACTIVE"}}>Active</option>
-        <option value="INACTIVE" {{selected status "INACTIVE"}}>Inactive</option>
-        <option value="BLACKLISTED" {{selected status "BLACKLISTED"}}>Blacklisted</option>
+        <option value="">Todos os estados</option>
+        <option value="ACTIVE" {{selected status "ACTIVE"}}>Activo</option>
+        <option value="INACTIVE" {{selected status "INACTIVE"}}>Inactivo</option>
+        <option value="BLACKLISTED" {{selected status "BLACKLISTED"}}>Lista negra</option>
       </select>
     </div>
-    <div class="col-md-3 d-flex align-items-end gap-2">
-      <button class="btn btn-outline-primary" type="submit">Search</button>
-      <a class="btn btn-outline-secondary" href="/clients">Clear</a>
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-search me-1" aria-hidden="true"></i>Pesquisar</button>
+      <a class="btn btn-outline-secondary" href="/clients">Limpar</a>
     </div>
   </form>
 
-  <p class="text-body-secondary">{{total}} client(s) found.</p>
+  <p class="text-body-secondary small">{{total}} cliente(s) encontrado(s).</p>
   {{#if clients.length}}
+    <div class="table-shell">
     <div class="table-responsive">
       <table class="table table-striped align-middle">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Document</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Status</th>
-            <th scope="col">Verification</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Verificação</th>
             <th scope="col"><span class="visually-hidden">Actions</span></th>
           </tr>
         </thead>
@@ -53,16 +54,17 @@
               <td>{{this.full_name}}</td>
               <td>{{this.document_type}}: {{this.document_number}}</td>
               <td>{{this.phone}}</td>
-              <td>{{this.status}}</td>
-              <td><span class="badge {{#if (eq this.verification_status "VERIFIED")}}text-bg-success{{else if (eq this.verification_status "REJECTED")}}text-bg-danger{{else}}text-bg-warning{{/if}}">{{this.verification_status}}</span></td>
-              <td><a class="btn btn-sm btn-outline-primary" href="/clients/{{this.id}}">View</a></td>
+              <td>{{> status-badge value=this.status}}</td>
+              <td>{{> status-badge value=this.verification_status}}</td>
+              <td><a class="btn btn-sm btn-outline-primary" href="/clients/{{this.id}}" aria-label="Ver cliente {{this.full_name}}">Ver</a></td>
             </tr>
           {{/each}}
         </tbody>
       </table>
     </div>
+    </div>
   {{else}}
-    <p class="text-body-secondary">No clients found.</p>
+    {{> empty-state icon="bi-people" message="Ainda não existem clientes com estes critérios."}}
   {{/if}}
   {{> pagination}}
 </section>

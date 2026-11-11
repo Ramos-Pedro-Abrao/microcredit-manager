@@ -1,0 +1,26 @@
+<footer class="public-footer" id="contacto">
+  <div class="container py-5">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-5">
+        {{> brand}}
+        <p class="footer-description">Uma forma simples de acompanhar o seu pedido de crédito.</p>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h2 class="footer-heading">Explorar</h2>
+        <a href="/#como-funciona">Como funciona</a>
+        <a href="/#produtos">Produtos</a>
+        <a href="/register">Criar conta</a>
+      </div>
+      <div class="col-6 col-lg-4">
+        <h2 class="footer-heading">Contacto</h2>
+        <a href="mailto:{{supportEmail}}"><i class="bi bi-envelope me-2" aria-hidden="true"></i>{{supportEmail}}</a>
+        <a href="tel:{{supportPhone}}"><i class="bi bi-telephone me-2" aria-hidden="true"></i>{{supportPhone}}</a>
+        <span>Luanda, Angola</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; {{appName}}. Todos os direitos reservados.</span>
+      <span>Valores e condições sujeitos a análise.</span>
+    </div>
+  </div>
+</footer>

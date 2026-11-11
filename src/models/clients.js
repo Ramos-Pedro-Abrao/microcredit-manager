@@ -86,27 +86,6 @@ export async function createClient(client) {
   return result.insertId;
 }
 
-export async function createSelfRegisteredClient(connection, client) {
-  const [result] = await connection.execute(
-    `INSERT INTO clients
-      (user_id, full_name, email, document_type, document_number, phone, address,
-       occupation, monthly_income, status, verification_status, registered_via)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', 'PENDING', 'SELF')`,
-    [
-      client.user_id,
-      client.full_name,
-      client.email,
-      client.document_type,
-      client.document_number,
-      client.phone || null,
-      client.address || null,
-      client.occupation || null,
-      client.monthly_income || null,
-    ],
-  );
-  return result.insertId;
-}
-
 export async function findClientByUserId(userId) {
   const [rows] = await pool.execute(
     `SELECT id, user_id, full_name, email, document_type, document_number,

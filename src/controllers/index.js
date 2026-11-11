@@ -1,21 +1,24 @@
 import { pool } from "../config/db.js";
 import { countPendingVerifications } from "../models/clients.js";
 import { countPendingLoanRequests } from "../models/loan-requests.js";
+import { env } from "../config/env.js";
+import { products } from "../config/products.js";
 
 export function home(req, res) {
   if (req.session.user) {
     return res.redirect(req.session.user.role === "CLIENT" ? "/portal" : "/dashboard");
   }
   res.render("pages/home", {
-    title: "Microcredit Manager",
+    title: `${env.APP_NAME} | Crédito simples e transparente`,
+    products,
   });
 }
 
 export async function dashboard(req, res) {
-  const [pendingVerifications, pendingRequests] = await Promise.all([
-    countPendingVerifications(),
-    countPendingLoanRequests(),
-  ]);
+  const pendingVerifications = await countPendingVerifications();
+  const pendingRequests = ["ADMIN", "MANAGER"].includes(req.session.user.role)
+    ? await countPendingLoanRequests()
+    : null;
   res.render("pages/dashboard", {
     title: "Dashboard | Microcredit Manager",
     pendingVerifications,

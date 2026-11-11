@@ -14,6 +14,7 @@ import {
 } from "../utils/validators.js";
 
 const roles = ["ADMIN", "MANAGER", "OPERATOR"];
+const editableRoles = [...roles, "CLIENT"];
 
 function idFromRequest(req, res) {
   if (!/^\d+$/.test(req.params.id)) {
@@ -129,7 +130,7 @@ export async function update(req, res) {
   const isActive = values.is_active === "1";
   const errors = [];
   if (!required(values.name)) errors.push("Name is required.");
-  if (!roles.includes(values.role)) errors.push("Choose a valid role.");
+  if (!editableRoles.includes(values.role)) errors.push("Choose a valid role.");
   if (!["0", "1"].includes(req.body.is_active)) errors.push("Choose whether this user is active.");
   if (
     String(user.id) === String(req.session.user.id)

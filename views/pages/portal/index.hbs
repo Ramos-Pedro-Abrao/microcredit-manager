@@ -1,64 +1,64 @@
 <section>
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
     <div>
-      <h1 class="h2">Client portal</h1>
-      <p class="text-body-secondary">Welcome, {{client.full_name}}.</p>
+      <span class="section-kicker">A sua conta</span>
+      <h1>Portal do cliente</h1>
+      <p class="text-body-secondary">Bem-vindo(a), {{client.full_name}}.</p>
     </div>
-    <a class="btn btn-outline-primary" href="/portal/profile">Edit contact profile</a>
+    <a class="btn btn-outline-primary" href="/portal/profile">Editar perfil</a>
   </div>
 
-  <div class="card my-4">
-    <div class="card-body">
-      <h2 class="h5">Verification status</h2>
-      <p>
-        <span class="badge {{#if (eq client.verification_status "VERIFIED")}}text-bg-success{{else if (eq client.verification_status "REJECTED")}}text-bg-danger{{else}}text-bg-warning{{/if}}">
-          {{client.verification_status}}
-        </span>
-      </p>
+  <div class="status-card my-4 {{statusClass client.verification_status}}">
+    <span class="status-icon" aria-hidden="true">
+      {{#if (eq client.verification_status "VERIFIED")}}<i class="bi bi-patch-check-fill"></i>{{else if (eq client.verification_status "REJECTED")}}<i class="bi bi-x-circle-fill"></i>{{else}}<i class="bi bi-hourglass-split"></i>{{/if}}
+    </span>
+    <div>
+      <h2>Estado da verificação</h2>
+      <p><strong>{{statusLabel client.verification_status}}</strong></p>
       {{#if (eq client.verification_status "PENDING")}}
-        <p class="mb-0">Your registration is being reviewed. You can submit a loan request after verification.</p>
+        <p class="mt-2">Os seus dados estão a ser analisados. Poderá submeter um pedido de crédito depois da verificação.</p>
       {{/if}}
       {{#if (eq client.verification_status "REJECTED")}}
-        <p class="mb-0"><strong>Reason:</strong> {{client.rejection_reason}}</p>
+        <p class="mt-2"><strong>Motivo:</strong> {{client.rejection_reason}}</p>
       {{/if}}
     </div>
   </div>
 
   <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
-    <h2 class="h4 mb-0">My loan requests</h2>
+    <h2 class="h4 mb-0">Os meus pedidos de crédito</h2>
     {{#if (eq client.verification_status "VERIFIED")}}
-      <a class="btn btn-primary" href="/portal/requests/new">New request</a>
+      <a class="btn btn-primary" href="/portal/requests/new">Novo pedido</a>
     {{/if}}
   </div>
   {{#if requests.length}}
     <div class="table-responsive">
-      <table class="table table-striped align-middle">
+      <div class="table-shell"><div class="table-responsive"><table class="table align-middle">
         <thead>
-          <tr><th>Request</th><th>Amount</th><th>Term</th><th>Frequency</th><th>Status</th><th>Submitted</th><th></th></tr>
+          <tr><th>Pedido</th><th>Montante</th><th>Prazo</th><th>Frequência</th><th>Estado</th><th>Submetido</th><th></th></tr>
         </thead>
         <tbody>
           {{#each requests}}
             <tr>
               <td>#{{this.id}}</td>
               <td>{{formatKz this.amount}}</td>
-              <td>{{this.term_months}} months</td>
+              <td>{{this.term_months}} meses</td>
               <td>{{this.frequency}}</td>
-              <td>{{this.status}}</td>
+              <td>{{> status-badge value=this.status}}</td>
               <td>{{formatDate this.created_at}}</td>
               <td>
                 {{#if (eq this.status "PENDING")}}
                   <form action="/portal/requests/{{this.id}}/cancel" method="post">
                     {{> csrf-field}}
-                    <button class="btn btn-sm btn-outline-danger" type="submit">Cancel</button>
+                    <button class="btn btn-sm btn-outline-danger" type="submit" data-confirm="Tem a certeza de que pretende cancelar este pedido?">Cancelar</button>
                   </form>
                 {{/if}}
               </td>
             </tr>
           {{/each}}
         </tbody>
-      </table>
+      </table></div></div>
     </div>
   {{else}}
-    <p class="text-body-secondary">You have not submitted any loan requests.</p>
+    {{> empty-state icon="bi-file-earmark-text" message="Ainda não submeteu nenhum pedido de crédito."}}
   {{/if}}
 </section>

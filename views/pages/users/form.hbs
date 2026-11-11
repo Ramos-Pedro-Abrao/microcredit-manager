@@ -1,5 +1,5 @@
 <section class="form-page">
-  <h1 class="h2 mb-4">{{heading}}</h1>
+  <div class="page-heading"><div><span class="section-kicker">Acessos</span><h1>{{#if editing}}Editar utilizador{{else}}Novo utilizador{{/if}}</h1></div></div>
   {{#if errors.length}}
     <div class="alert alert-danger" role="alert">
       <ul class="mb-0">
@@ -10,43 +10,46 @@
   <form action="{{action}}" method="post">
     {{> csrf-field}}
     <div class="mb-3">
-      <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+      <label class="form-label" for="name">Nome <span class="text-danger">*</span></label>
       <input class="form-control" id="name" name="name" maxlength="150" value="{{values.name}}" required>
     </div>
     {{#if editing}}
       <div class="mb-3">
-        <label class="form-label" for="email">Email</label>
+        <label class="form-label" for="email">Endereço de email</label>
         <input class="form-control" id="email" type="email" value="{{values.email}}" disabled>
       </div>
     {{else}}
       <div class="mb-3">
-        <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+        <label class="form-label" for="email">Endereço de email <span class="text-danger">*</span></label>
         <input class="form-control" id="email" name="email" type="email" maxlength="254" value="{{values.email}}" required>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="password">Initial password <span class="text-danger">*</span></label>
+        <label class="form-label" for="password">Palavra-passe inicial <span class="text-danger">*</span></label>
         <input class="form-control" id="password" name="password" type="password" minlength="10" autocomplete="new-password" required>
-        <div class="form-text">Use at least 10 characters.</div>
+        <div class="form-text">Utilize pelo menos 10 caracteres.</div>
       </div>
     {{/if}}
     <div class="mb-3">
-      <label class="form-label" for="role">Role</label>
+      <label class="form-label" for="role">Perfil</label>
       <select class="form-select" id="role" name="role" required>
-        <option value="ADMIN" {{selected values.role "ADMIN"}}>Admin</option>
-        <option value="MANAGER" {{selected values.role "MANAGER"}}>Manager</option>
-        <option value="OPERATOR" {{selected values.role "OPERATOR"}}>Operator</option>
+        <option value="ADMIN" {{selected values.role "ADMIN"}}>Administrador</option>
+        <option value="MANAGER" {{selected values.role "MANAGER"}}>Gestor</option>
+        <option value="OPERATOR" {{selected values.role "OPERATOR"}}>Operador</option>
+        {{#if (eq values.role "CLIENT")}}
+          <option value="CLIENT" selected>Cliente</option>
+        {{/if}}
       </select>
     </div>
     {{#if editing}}
       <div class="mb-3">
-        <label class="form-label" for="is_active">Account status</label>
+        <label class="form-label" for="is_active">Estado da conta</label>
         <select class="form-select" id="is_active" name="is_active" required>
-          <option value="1" {{selected values.is_active 1}}>Active</option>
-          <option value="0" {{selected values.is_active 0}}>Inactive</option>
+          <option value="1" {{selected values.is_active 1}}>Activo</option>
+          <option value="0" {{selected values.is_active 0}}>Inactivo</option>
         </select>
       </div>
     {{/if}}
-    <button class="btn btn-primary" type="submit">{{#if editing}}Save changes{{else}}Create user{{/if}}</button>
-    <a class="btn btn-outline-secondary" href="/users">Cancel</a>
+    <button class="btn btn-primary" type="submit">{{#if editing}}Guardar alterações{{else}}Criar utilizador{{/if}}</button>
+    <a class="btn btn-outline-secondary" href="/users">Cancelar</a>
   </form>
 </section>

@@ -1,31 +1,31 @@
 <section>
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-    <h1 class="h2 mb-0">{{client.full_name}}</h1>
+    <h1 class="mb-0">{{client.full_name}}</h1>
     <div class="d-flex gap-2">
-      <a class="btn btn-outline-primary" href="/clients/{{client.id}}/edit">Edit client</a>
-      <a class="btn btn-outline-secondary" href="/clients">Back to clients</a>
+      <a class="btn btn-outline-primary" href="/clients/{{client.id}}/edit">Editar cliente</a>
+      <a class="btn btn-outline-secondary" href="/clients">Voltar aos clientes</a>
     </div>
   </div>
-  <dl class="row">
-    <dt class="col-sm-3">Document</dt><dd class="col-sm-9">{{client.document_type}}: {{client.document_number}}</dd>
-    <dt class="col-sm-3">Phone</dt><dd class="col-sm-9">{{client.phone}}</dd>
-    <dt class="col-sm-3">Address</dt><dd class="col-sm-9">{{client.address}}</dd>
-    <dt class="col-sm-3">Occupation</dt><dd class="col-sm-9">{{client.occupation}}</dd>
-    <dt class="col-sm-3">Monthly income</dt>
+  <dl class="row detail-list">
+    <dt class="col-sm-3">Documento</dt><dd class="col-sm-9">{{client.document_type}}: {{client.document_number}}</dd>
+    <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9">{{client.phone}}</dd>
+    <dt class="col-sm-3">Morada</dt><dd class="col-sm-9">{{client.address}}</dd>
+    <dt class="col-sm-3">Profissão</dt><dd class="col-sm-9">{{client.occupation}}</dd>
+    <dt class="col-sm-3">Rendimento mensal</dt>
     <dd class="col-sm-9">{{#if client.monthly_income}}{{formatKz client.monthly_income}}{{else}}—{{/if}}</dd>
-    <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{client.status}}</dd>
+    <dt class="col-sm-3">Estado</dt><dd class="col-sm-9">{{> status-badge value=client.status}}</dd>
     <dt class="col-sm-3">Email</dt><dd class="col-sm-9">{{client.email}}</dd>
-    <dt class="col-sm-3">Registration</dt><dd class="col-sm-9">{{client.registered_via}}</dd>
-    <dt class="col-sm-3">Verification</dt><dd class="col-sm-9">{{client.verification_status}}</dd>
+    <dt class="col-sm-3">Registo</dt><dd class="col-sm-9">{{#if (eq client.registered_via "SELF")}}Cliente{{else}}Equipa{{/if}}</dd>
+    <dt class="col-sm-3">Verificação</dt><dd class="col-sm-9">{{> status-badge value=client.verification_status}}</dd>
     {{#if client.verified_at}}
-      <dt class="col-sm-3">Reviewed by</dt><dd class="col-sm-9">{{client.verified_by_name}}</dd>
-      <dt class="col-sm-3">Reviewed at</dt><dd class="col-sm-9">{{formatDate client.verified_at}}</dd>
+      <dt class="col-sm-3">Verificado por</dt><dd class="col-sm-9">{{client.verified_by_name}}</dd>
+      <dt class="col-sm-3">Data da verificação</dt><dd class="col-sm-9">{{formatDate client.verified_at}}</dd>
     {{/if}}
     {{#if client.rejection_reason}}
-      <dt class="col-sm-3">Rejection reason</dt><dd class="col-sm-9">{{client.rejection_reason}}</dd>
+      <dt class="col-sm-3">Motivo da rejeição</dt><dd class="col-sm-9">{{client.rejection_reason}}</dd>
     {{/if}}
-    <dt class="col-sm-3">Created</dt><dd class="col-sm-9">{{formatDate client.created_at}}</dd>
-    <dt class="col-sm-3">Updated</dt><dd class="col-sm-9">{{formatDate client.updated_at}}</dd>
+    <dt class="col-sm-3">Criado</dt><dd class="col-sm-9">{{formatDate client.created_at}}</dd>
+    <dt class="col-sm-3">Actualizado</dt><dd class="col-sm-9">{{formatDate client.updated_at}}</dd>
   </dl>
   {{#if rejectionError}}
     <div class="alert alert-danger" role="alert">{{rejectionError}}</div>
@@ -34,17 +34,17 @@
     {{#if (eq client.verification_status "PENDING")}}
       <section class="card mb-4">
         <div class="card-body">
-          <h2 class="h5">Review client verification</h2>
+          <h2 class="h5">Analisar verificação do cliente</h2>
           <div class="d-flex flex-wrap gap-3 align-items-start">
             <form action="/clients/{{client.id}}/verify" method="post">
               {{> csrf-field}}
-              <button class="btn btn-success" type="submit">Verify client</button>
+              <button class="btn btn-success" type="submit">Verificar cliente</button>
             </form>
             <form action="/clients/{{client.id}}/reject" method="post" class="flex-grow-1">
               {{> csrf-field}}
-              <label class="form-label" for="rejection_reason">Rejection reason <span class="text-danger">*</span></label>
+              <label class="form-label" for="rejection_reason">Motivo da rejeição <span class="text-danger">*</span></label>
               <textarea class="form-control mb-2" id="rejection_reason" name="rejection_reason" rows="2" required>{{rejectionReason}}</textarea>
-              <button class="btn btn-outline-danger" type="submit">Reject registration</button>
+              <button class="btn btn-outline-danger" type="submit">Rejeitar registo</button>
             </form>
           </div>
         </div>
@@ -52,7 +52,7 @@
     {{/if}}
   {{/if}}
   <section class="mt-5">
-    <h2 class="h4">Loans</h2>
-    <p class="text-body-secondary">Loan management will be available in Phase 3.</p>
+    <h2 class="h4">Créditos</h2>
+    <p class="text-body-secondary">A gestão de créditos estará disponível numa próxima fase.</p>
   </section>
 </section>

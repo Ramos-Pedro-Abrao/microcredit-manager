@@ -47,6 +47,9 @@ if (!Number.isInteger(databasePort) || databasePort < 1 || databasePort > 65535)
 }
 
 export const env = Object.freeze({
+  APP_NAME: process.env.APP_NAME?.trim() || "Microcrédito",
+  SUPPORT_EMAIL: process.env.SUPPORT_EMAIL?.trim() || "apoio@microcredito.ao",
+  SUPPORT_PHONE: process.env.SUPPORT_PHONE?.trim() || "+244 900 000 000",
   PORT: port,
   NODE_ENV: process.env.NODE_ENV ?? "development",
   DB_HOST: process.env.DB_HOST ?? databaseDefaults.DB_HOST,

@@ -1,7 +1,187 @@
-<section class="p-4 p-md-5 bg-body-tertiary rounded-3">
-  <h1 class="display-6">Loan and microcredit management</h1>
-  <p class="lead mb-0">
-    Manage clients, loans, and repayments from one place. Sign in to continue.
-  </p>
-  <a class="btn btn-primary mt-4" href="/login">Login</a>
+<section class="hero-section" id="inicio">
+  <div class="container">
+    <div class="row hero-grid g-4 g-lg-5">
+      <div class="col-lg-7 hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Uma forma simples de avançar</span>
+        <h1 class="hero-title">Crédito rápido e seguro <em>para si.</em></h1>
+        <p class="hero-description">
+          Faça o seu pedido online, acompanhe cada etapa e receba uma resposta clara da nossa equipa.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/register">Pedir crédito <i class="bi bi-arrow-up-right ms-1" aria-hidden="true"></i></a>
+          <a class="btn btn-outline-primary" href="/login">Já tenho conta</a>
+        </div>
+        <div class="hero-trust" aria-label="Vantagens do serviço">
+          <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Pedido online</span>
+          <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Análise transparente</span>
+          <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Acompanhe na sua conta</span>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-art" aria-label="Ilustração de dois cartões e moedas" role="img">
+          <svg class="hero-illustration" viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M75 205C61 113 141 35 241 44c69 6 94-22 158 10 69 35 112 112 82 195-28 79-107 131-194 127-89-5-198-64-212-171Z" fill="#E2F6EA"/>
+            <g transform="rotate(-9 229 175)">
+              <rect x="73" y="91" width="300" height="190" rx="25" fill="#12B76A"/>
+              <path d="M98 111c40-25 120-22 165 0" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="24"/>
+              <circle cx="323" cy="122" r="13" fill="#fff" fill-opacity=".72"/>
+              <rect x="103" y="161" width="51" height="38" rx="8" fill="#FFC83D"/>
+              <path d="M116 161v38m24-38v38m-37-19h51" stroke="#DDAE32" stroke-width="2"/>
+              <circle cx="111" cy="232" r="5" fill="#fff" fill-opacity=".83"/><circle cx="131" cy="232" r="5" fill="#fff" fill-opacity=".83"/><circle cx="151" cy="232" r="5" fill="#fff" fill-opacity=".83"/><circle cx="171" cy="232" r="5" fill="#fff" fill-opacity=".83"/>
+              <text x="103" y="259" fill="#fff" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="2">{{appName}}</text>
+            </g>
+            <g transform="rotate(9 302 264)">
+              <rect x="158" y="187" width="300" height="190" rx="25" fill="#0B1F3A"/>
+              <path d="M183 207c40-25 120-22 165 0" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="24"/>
+              <circle cx="408" cy="218" r="13" fill="#12B76A"/>
+              <rect x="188" y="257" width="51" height="38" rx="8" fill="#FFC83D"/>
+              <path d="M201 257v38m24-38v38m-37-19h51" stroke="#DDAE32" stroke-width="2"/>
+              <circle cx="196" cy="328" r="5" fill="#fff" fill-opacity=".83"/><circle cx="216" cy="328" r="5" fill="#fff" fill-opacity=".83"/><circle cx="236" cy="328" r="5" fill="#fff" fill-opacity=".83"/><circle cx="256" cy="328" r="5" fill="#fff" fill-opacity=".83"/>
+              <text x="188" y="355" fill="#fff" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="2">O SEU PRÓXIMO PASSO</text>
+            </g>
+            <g>
+              <circle cx="409" cy="82" r="31" fill="#FFC83D" stroke="#FFE28C" stroke-width="7"/>
+              <text x="409" y="87" fill="#755000" font-family="sans-serif" font-size="12" font-weight="800" text-anchor="middle">Kz</text>
+              <circle cx="446" cy="335" r="24" fill="#FFC83D" stroke="#FFE28C" stroke-width="6"/>
+              <text x="446" y="340" fill="#755000" font-family="sans-serif" font-size="10" font-weight="800" text-anchor="middle">Kz</text>
+              <circle cx="91" cy="323" r="19" fill="#FFC83D" stroke="#FFE28C" stroke-width="5"/>
+              <path d="M84 323h14" stroke="#755000" stroke-linecap="round" stroke-width="3"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap" aria-labelledby="benefits-title">
+  <div class="container">
+    <div class="section-heading">
+      <p class="section-kicker">Feito para si</p>
+      <h2 class="section-title" id="benefits-title">Mais clareza em cada etapa</h2>
+      <p class="section-description">Uma experiência directa para pedir crédito e acompanhar o seu processo com confiança.</p>
+    </div>
+    <div class="row g-3 g-lg-4">
+      <div class="col-sm-6 col-lg-3">
+        <article class="benefit-card">
+          <span class="benefit-icon"><i class="bi bi-laptop" aria-hidden="true"></i></span>
+          <h3>Pedido 100% online</h3>
+          <p>Comece o seu pedido na plataforma, onde estiver.</p>
+        </article>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <article class="benefit-card">
+          <span class="benefit-icon"><i class="bi bi-list-check" aria-hidden="true"></i></span>
+          <h3>Processo simples</h3>
+          <p>Saiba o que precisa fazer em cada momento.</p>
+        </article>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <article class="benefit-card">
+          <span class="benefit-icon"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+          <h3>Prestações claras</h3>
+          <p>Consulte as condições apresentadas para o seu pedido.</p>
+        </article>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <article class="benefit-card">
+          <span class="benefit-icon"><i class="bi bi-phone" aria-hidden="true"></i></span>
+          <h3>Acompanhe tudo</h3>
+          <p>Veja o estado do seu crédito na sua conta.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap products-section" id="produtos" aria-labelledby="products-title">
+  <div class="container">
+    <div class="section-heading">
+      <p class="section-kicker">Soluções de crédito</p>
+      <h2 class="section-title" id="products-title">Escolha o seu tipo de crédito</h2>
+      <p class="section-description">Conheça as opções e envie o seu pedido para análise.</p>
+    </div>
+    <ul class="nav nav-pills product-tabs" id="productTabs" role="tablist" aria-label="Tipos de crédito">
+      {{#each products}}
+        <li class="nav-item" role="presentation">
+          <button class="nav-link {{#if @first}}active{{/if}}" id="{{this.id}}-tab" data-bs-toggle="pill" data-bs-target="#{{this.id}}-panel" type="button" role="tab" aria-controls="{{this.id}}-panel" aria-selected="{{#if @first}}true{{else}}false{{/if}}">
+            {{this.label}}
+          </button>
+        </li>
+      {{/each}}
+    </ul>
+    <div class="tab-content" id="productTabsContent">
+      {{#each products}}
+        <div class="tab-pane fade {{#if @first}}show active{{/if}}" id="{{this.id}}-panel" role="tabpanel" aria-labelledby="{{this.id}}-tab" tabindex="0">
+          <div class="row g-3 g-lg-4 justify-content-center">
+            {{#each this.cards}}
+              <div class="col-md-6 col-xl-5">
+                <article class="product-card">
+                  <div class="product-topline">
+                    <i class="bi {{this.icon}} product-icon" aria-hidden="true"></i>
+                    <span class="badge product-badge">{{this.badge}}</span>
+                  </div>
+                  <h3>{{this.title}}</h3>
+                  <ul>
+                    {{#each this.items}}
+                      <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>{{this}}</span></li>
+                    {{/each}}
+                  </ul>
+                  <a class="btn btn-outline-primary w-100" href="/register">Pedir agora</a>
+                </article>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    <p class="product-note">Valores e condições sujeitos a análise.</p>
+  </div>
+</section>
+
+<section class="section-wrap steps-section" id="como-funciona" aria-labelledby="steps-title">
+  <div class="container">
+    <div class="section-heading">
+      <p class="section-kicker">Comece hoje</p>
+      <h2 class="section-title" id="steps-title">Três passos para avançar</h2>
+      <p class="section-description">O processo começa com os seus dados e segue para análise da equipa.</p>
+    </div>
+    <div class="row g-3 g-lg-4">
+      <div class="col-md-4">
+        <article class="step-card">
+          <span class="step-number">1</span>
+          <h3>Crie a sua conta</h3>
+          <p>Registe os seus dados pessoais na plataforma.</p>
+        </article>
+      </div>
+      <div class="col-md-4">
+        <article class="step-card">
+          <span class="step-number">2</span>
+          <h3>Verificamos os seus dados</h3>
+          <p>A nossa equipa confirma a informação submetida.</p>
+        </article>
+      </div>
+      <div class="col-md-4">
+        <article class="step-card">
+          <span class="step-number">3</span>
+          <h3>Peça o seu crédito</h3>
+          <p>Depois da verificação, envie o seu pedido de crédito.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="cta-band">
+    <div class="row align-items-center g-3">
+      <div class="col-lg-8">
+        <h2>O próximo passo começa com uma conversa.</h2>
+        <p>Crie a sua conta para conhecer o processo e acompanhar o seu pedido.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a class="btn btn-primary" href="/register">Criar a minha conta <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
 </section>

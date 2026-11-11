@@ -1,5 +1,5 @@
 <section class="form-page">
-  <h1 class="h2 mb-4">{{heading}}</h1>
+  <div class="page-heading"><div><span class="section-kicker">Gestão de clientes</span><h1>{{#if editing}}Editar cliente{{else}}Novo cliente{{/if}}</h1></div></div>
   {{#if errors.length}}
     <div class="alert alert-danger" role="alert">
       <ul class="mb-0">
@@ -10,52 +10,52 @@
   <form action="{{action}}" method="post">
     {{> csrf-field}}
     <div class="mb-3">
-      <label class="form-label" for="full_name">Full name <span class="text-danger">*</span></label>
+      <label class="form-label" for="full_name">Nome completo <span class="text-danger">*</span></label>
       <input class="form-control" id="full_name" name="full_name" maxlength="180" value="{{values.full_name}}" required>
     </div>
     <div class="row g-3">
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="email">Email</label>
+        <label class="form-label" for="email">Endereço de email</label>
         <input class="form-control" id="email" name="email" type="email" maxlength="254" value="{{values.email}}">
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="document_type">Document type <span class="text-danger">*</span></label>
+        <label class="form-label" for="document_type">Tipo de documento <span class="text-danger">*</span></label>
         <input class="form-control" id="document_type" name="document_type" maxlength="40" value="{{values.document_type}}" required>
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="document_number">Document number <span class="text-danger">*</span></label>
+        <label class="form-label" for="document_number">Número do documento <span class="text-danger">*</span></label>
         <input class="form-control" id="document_number" name="document_number" maxlength="100" value="{{values.document_number}}" required>
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="phone">Phone</label>
+        <label class="form-label" for="phone">Telefone</label>
         <input class="form-control" id="phone" name="phone" maxlength="40" value="{{values.phone}}">
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="occupation">Occupation</label>
+        <label class="form-label" for="occupation">Profissão</label>
         <input class="form-control" id="occupation" name="occupation" maxlength="120" value="{{values.occupation}}">
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label" for="monthly_income">Monthly income (Kz)</label>
+        <label class="form-label" for="monthly_income">Rendimento mensal (Kz)</label>
         <input class="form-control" id="monthly_income" name="monthly_income" type="number" min="0" step="0.01" value="{{values.monthly_income}}">
       </div>
       {{#if canChangeStatus}}
         {{#if editing}}
           <div class="col-md-6 mb-3">
-            <label class="form-label" for="status">Status</label>
+            <label class="form-label" for="status">Estado</label>
             <select class="form-select" id="status" name="status">
-              <option value="ACTIVE" {{selected values.status "ACTIVE"}}>Active</option>
-              <option value="INACTIVE" {{selected values.status "INACTIVE"}}>Inactive</option>
-              <option value="BLACKLISTED" {{selected values.status "BLACKLISTED"}}>Blacklisted</option>
+              <option value="ACTIVE" {{selected values.status "ACTIVE"}}>Activo</option>
+              <option value="INACTIVE" {{selected values.status "INACTIVE"}}>Inactivo</option>
+              <option value="BLACKLISTED" {{selected values.status "BLACKLISTED"}}>Lista negra</option>
             </select>
           </div>
         {{/if}}
       {{/if}}
     </div>
     <div class="mb-3">
-      <label class="form-label" for="address">Address</label>
+      <label class="form-label" for="address">Morada</label>
       <input class="form-control" id="address" name="address" maxlength="255" value="{{values.address}}">
     </div>
-    <button class="btn btn-primary" type="submit">{{#if editing}}Save changes{{else}}Create client{{/if}}</button>
-    <a class="btn btn-outline-secondary" href="/clients">Cancel</a>
+    <button class="btn btn-primary" type="submit">{{#if editing}}Guardar alterações{{else}}Criar cliente{{/if}}</button>
+    <a class="btn btn-outline-secondary" href="/clients">Cancelar</a>
   </form>
 </section>

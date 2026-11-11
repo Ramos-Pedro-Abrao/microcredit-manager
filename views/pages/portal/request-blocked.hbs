@@ -1,9 +1,9 @@
 <section class="py-4">
-  <h1 class="h2">{{title}}</h1>
+  <div class="page-heading"><div><span class="section-kicker">Crédito</span><h1>{{#if message}}Pedido não disponível{{else}}Verificação necessária{{/if}}</h1></div></div>
   {{#if message}}
     <p>{{message}}</p>
   {{else}}
-    <p>Your registration is currently <strong>{{client.verification_status}}</strong>. Loan requests are available after staff verifies your information.</p>
+    <p>O seu registo está <strong>{{statusLabel client.verification_status}}</strong>. Poderá pedir crédito depois da verificação dos seus dados pela equipa.</p>
   {{/if}}
-  <a class="btn btn-primary" href="/portal">Return to portal</a>
+  <a class="btn btn-primary" href="/portal">Voltar ao portal</a>
 </section>

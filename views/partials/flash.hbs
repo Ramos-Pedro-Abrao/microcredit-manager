@@ -1,6 +1,7 @@
 {{#each flashMessages}}
-  <div class="alert alert-{{this.type}} alert-dismissible fade show" role="alert">
-    {{this.message}}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="alert app-alert alert-{{this.type}} alert-dismissible fade show" role="alert">
+    <i class="bi {{#if (eq this.type "success")}}bi-check-circle-fill{{else}}bi-exclamation-triangle-fill{{/if}}" aria-hidden="true"></i>
+    <span>{{this.message}}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar aviso"></button>
   </div>
 {{/each}}

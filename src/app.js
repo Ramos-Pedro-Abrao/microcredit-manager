@@ -23,10 +23,42 @@ app.engine(
     extname: ".hbs",
     layoutsDir: resolve(viewsDirectory, "layouts"),
     partialsDir: resolve(viewsDirectory, "partials"),
-    defaultLayout: "main",
+    defaultLayout: "public",
     helpers: {
       eq: (left, right) => String(left) === String(right),
       selected: (left, right) => String(left) === String(right) ? "selected" : "",
+      statusClass(value) {
+        return {
+          VERIFIED: "status-success",
+          APPROVED: "status-success",
+          ACTIVE: "status-success",
+          PENDING: "status-pending",
+          REJECTED: "status-danger",
+          BLACKLISTED: "status-danger",
+          INACTIVE: "status-muted",
+          CANCELLED: "status-muted",
+        }[String(value)] ?? "status-muted";
+      },
+      statusLabel(value) {
+        return {
+          VERIFIED: "Verificado",
+          APPROVED: "Aprovado",
+          ACTIVE: "Activo",
+          PENDING: "Pendente",
+          REJECTED: "Rejeitado",
+          BLACKLISTED: "Lista negra",
+          INACTIVE: "Inactivo",
+          CANCELLED: "Cancelado",
+        }[String(value)] ?? value;
+      },
+      roleLabel(value) {
+        return {
+          ADMIN: "Administrador",
+          MANAGER: "Gestor",
+          OPERATOR: "Operador",
+          CLIENT: "Cliente",
+        }[String(value)] ?? value;
+      },
       formatDate(value) {
         if (!value) return "";
         const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -56,6 +88,14 @@ app.use(express.static(resolve(process.cwd(), "public")));
 app.use(
   "/vendor/bootstrap",
   express.static(resolve(process.cwd(), "node_modules/bootstrap/dist")),
+);
+app.use(
+  "/vendor/bootstrap-icons",
+  express.static(resolve(process.cwd(), "node_modules/bootstrap-icons")),
+);
+app.use(
+  "/vendor/fonts",
+  express.static(resolve(process.cwd(), "node_modules/@fontsource/plus-jakarta-sans")),
 );
 
 export const sessionStore = new MySQLStore({
@@ -87,6 +127,13 @@ app.use(
 );
 app.use(flashMessages);
 app.use(exposeCurrentUser);
+app.use((req, res, next) => {
+  res.locals.appName = env.APP_NAME;
+  res.locals.supportEmail = env.SUPPORT_EMAIL;
+  res.locals.supportPhone = env.SUPPORT_PHONE;
+  res.locals.layout = req.session.user ? "app" : "public";
+  next();
+});
 app.use((req, res, next) => {
   req.session.csrfToken ??= randomBytes(32).toString("hex");
   res.locals.csrfToken = req.session.csrfToken;
